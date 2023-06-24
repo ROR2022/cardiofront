@@ -25,7 +25,7 @@ const CardioNavbar = () => {
     });
   }, []);
 
-  async function downloadApp() {
+  const  downloadApp= async()=> {
     console.log("👍", "butInstall-clicked");
     const promptEvent = window.deferredPrompt;
     if (!promptEvent) {
@@ -55,7 +55,7 @@ const CardioNavbar = () => {
               <img width={'50px'} src={cardioLogo} className='rounded' alt="cardioLogo" />
               Pediatra
               </Navbar.Brand>
-            
+              {isReadyForInstall && <button className='btn btn-outline-danger' onClick={downloadApp}> Instalar </button>}
             <span className='btn btn-outline-info'> 
       <BiMenu  onClick={toggleOffcanvas} style={{color:`${colorMorado}`, fontSize:'25px'}}/>
       </span>
