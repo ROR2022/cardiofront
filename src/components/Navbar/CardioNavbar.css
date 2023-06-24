@@ -1,0 +1,12 @@
+
+
+.invierteColoresNavbar{
+    color: #af50e5;
+    background-color: #7fbfff80;
+  text-decoration: none;
+}
+
+.invierteColoresNavbar:hover{
+        color: #fff !important;
+        background-color: #af50e570 !important;
+}
