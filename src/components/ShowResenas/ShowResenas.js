@@ -48,6 +48,7 @@ const ShowResenas = ({ handleToogleNewResena, isNewResena }) => {
       ...procesoCarga,
       inicioCarga:true
     })
+    console.log('Inicio de la carga:...')
     try {
       const result = await recuperaResenas();
       //console.log("dataResenas:...", result);
