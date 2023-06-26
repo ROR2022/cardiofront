@@ -11,4 +11,4 @@ export const clientIdGoogle= "311889924194-gdtap2h3fon6clgflv7oouub1ko4alb9.apps
 
 const env='PRD';
 
-export const backUrl= env==='PRD'?'http://3.12.165.15':'http://localhost:5000';
+export const backUrl= env==='PRD'?'https://apipediatra.fotoappkodemia.de':'http://localhost:5000';
