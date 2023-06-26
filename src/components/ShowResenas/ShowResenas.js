@@ -9,7 +9,8 @@ const ShowResenas = ({ handleToogleNewResena, isNewResena }) => {
     mont:false,
     carga:false,
     nuevo:false,
-    resultCarga:''
+    resultCarga:'',
+    inicioCarga:false
   })
   useEffect(() => {
     //console.log('Montando el componente ShowResenas:...')
@@ -43,6 +44,10 @@ const ShowResenas = ({ handleToogleNewResena, isNewResena }) => {
   }, [isNewResena]);
 
   const cargarDatos = async () => {
+    setProcesoCarga({
+      ...procesoCarga,
+      inicioCarga:true
+    })
     try {
       const result = await recuperaResenas();
       //console.log("dataResenas:...", result);
@@ -66,6 +71,7 @@ const ShowResenas = ({ handleToogleNewResena, isNewResena }) => {
       {procesoCarga.mont&&<div>Componente montado</div>}
       {procesoCarga.carga&&<div>Datos cargados: {dataResenas.length}</div>}
       {procesoCarga.nuevo&&<div>Nuevo Comentario</div>}
+      {procesoCarga.inicioCarga&&<div>Se ha iniciado la carga</div>}
       {procesoCarga.resultCarga&&<div>Resultado de la Carga: {procesoCarga.resultCarga}</div>}
       <div className="d-flex flex-wrap justify-content-around gap-2">
         {dataResenas.map((item) => {
