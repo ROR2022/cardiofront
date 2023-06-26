@@ -5,14 +5,27 @@ import { myId } from "../../lib/myLib";
 
 const ShowResenas = ({ handleToogleNewResena, isNewResena }) => {
   const [dataResenas, setDataResenas] = useState([]);
+  const [procesoCarga, setProcesoCarga] = useState({
+    mont:false,
+    carga:false,
+    nuevo:false
+  })
   useEffect(() => {
     //console.log('Montando el componente ShowResenas:...')
+    setProcesoCarga({
+      ...procesoCarga,
+      mont:true
+    })
     cargarDatos();
   }, []);
 
   useEffect(() => {
     if (dataResenas.length > 0) {
       //console.log('Aqui ya se mostraron las reseñas:...')
+      setProcesoCarga({
+        ...procesoCarga,
+        carga:true
+      })
       handleToogleNewResena();
     }
   }, [dataResenas]);
@@ -20,6 +33,10 @@ const ShowResenas = ({ handleToogleNewResena, isNewResena }) => {
   useEffect(() => {
     if (isNewResena) {
       //console.log('Se supone que vuelve a pintar ShowResenas:...');
+      setProcesoCarga({
+        ...procesoCarga,
+        nuevo:true
+      })
       cargarDatos();
     }
   }, [isNewResena]);
@@ -39,6 +56,9 @@ const ShowResenas = ({ handleToogleNewResena, isNewResena }) => {
   return (
     <div className="mb-3">
       <hr />
+      {procesoCarga.mont&&<div>Componente montado</div>}
+      {procesoCarga.carga&&<div>Datos cargados: {dataResenas.length}</div>}
+      {procesoCarga.nuevo&&<div>Nuevo Comentario</div>}
       <div className="d-flex flex-wrap justify-content-around gap-2">
         {dataResenas.map((item) => {
           return <CardResena key={myId()} dataResena={item} />;
