@@ -8,7 +8,8 @@ const ShowResenas = ({ handleToogleNewResena, isNewResena }) => {
   const [procesoCarga, setProcesoCarga] = useState({
     mont:false,
     carga:false,
-    nuevo:false
+    nuevo:false,
+    resultCarga:''
   })
   useEffect(() => {
     //console.log('Montando el componente ShowResenas:...')
@@ -47,9 +48,15 @@ const ShowResenas = ({ handleToogleNewResena, isNewResena }) => {
       //console.log("dataResenas:...", result);
       if (result?.data?.docs?.docs) {
         setDataResenas([...result?.data?.docs?.docs]);
+        setProcesoCarga({
+          resultCarga:JSON.stringify(result?.data?.docs?.docs)
+        })
       }
     } catch (error) {
       console.log(error);
+      setProcesoCarga({
+        resultCarga:JSON.stringify(error)
+      })
     }
   };
 
@@ -59,6 +66,7 @@ const ShowResenas = ({ handleToogleNewResena, isNewResena }) => {
       {procesoCarga.mont&&<div>Componente montado</div>}
       {procesoCarga.carga&&<div>Datos cargados: {dataResenas.length}</div>}
       {procesoCarga.nuevo&&<div>Nuevo Comentario</div>}
+      {procesoCarga.resultCarga&&<div>Resultado de la Carga: {procesoCarga.resultCarga}</div>}
       <div className="d-flex flex-wrap justify-content-around gap-2">
         {dataResenas.map((item) => {
           return <CardResena key={myId()} dataResena={item} />;
