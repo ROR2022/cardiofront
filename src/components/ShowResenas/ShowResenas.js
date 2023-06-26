@@ -44,19 +44,19 @@ const ShowResenas = ({ handleToogleNewResena, isNewResena }) => {
   }, [isNewResena]);
 
   const cargarDatos = async () => {
-    setProcesoCarga({
+    /* setProcesoCarga({
       ...procesoCarga,
       inicioCarga:true
-    })
+    }) */
     console.log('Inicio de la carga:...')
     try {
       const result = await recuperaResenas();
       //console.log("dataResenas:...", result);
       if (result?.data?.docs?.docs) {
         setDataResenas([...result?.data?.docs?.docs]);
-        setProcesoCarga({
+        /* setProcesoCarga({
           resultCarga:JSON.stringify(result?.data?.docs?.docs)
-        })
+        }) */
       }
     } catch (error) {
       console.log(error);
