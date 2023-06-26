@@ -20,9 +20,9 @@ const Home = () => {
   },[isNewResena])
 
   useEffect(()=>{
-    if(dataUser.email!==''){
+    
       console.log('dataUser (home)...',dataUser);
-    }
+    
   },[dataUser])
 
   const handleToogleNewResena = ()=>{

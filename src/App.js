@@ -21,7 +21,7 @@ function App() {
     true
   );
   useEffect(() => {
-    
+      console.log('dataUserPeditra (app):..',dataLocalStorage);
       setDataUser({...dataLocalStorage})
     
   }, [dataLocalStorage]);
