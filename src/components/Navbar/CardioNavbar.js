@@ -1,69 +1,89 @@
-import Container from 'react-bootstrap/Container';
+import Container from "react-bootstrap/Container";
 //import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import Navbar from "react-bootstrap/Navbar";
 //import NavDropdown from 'react-bootstrap/NavDropdown';
-import { useState,useEffect } from 'react';
-//import Button from 'react-bootstrap/Button';
-import CardioOffcanvas from './CardioOffcanvas';
-import cardioLogo from '../../assets/images/logoCardio1.png'
-import {BiMenu} from 'react-icons/bi';
-import { colorMorado } from '../../assets/constants';
+import { useState, useEffect } from "react";
+import Button from "react-bootstrap/Button";
+import CardioOffcanvas from "./CardioOffcanvas";
+import cardioLogo from "../../assets/images/logoCardio1.png";
+import { BiMenu } from "react-icons/bi";
+import { colorMorado } from "../../assets/constants";
+import usePediatra from "../../hooks/usePediatra";
+import useLoginGoogle from '../../hooks/useLoginGoogle';
+import { loginUserPediatra } from "../../api/apiUser";
 
 const CardioNavbar = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
-  const [isReadyForInstall, setIsReadyForInstall] = useState(false);
+  const [dataUser,setDataUser,initialDataUser,dataLocalStorage,setDataLocalStorage] = usePediatra();
+  const [isDoingLogin, setIsDoingLogin] = useState(false);
+  const doLoginGoogle = useLoginGoogle();
 
-  useEffect(() => {
-    window.addEventListener("beforeinstallprompt", (event) => {
-      // Prevent the mini-infobar from appearing on mobile.
-      event.preventDefault();
-      console.log("👍", "beforeinstallprompt", event);
-      // Stash the event so it can be triggered later.
-      window.deferredPrompt = event;
-      // Remove the 'hidden' class from the install button container.
-      setIsReadyForInstall(true);
-    });
-  }, []);
-
-  const  downloadApp= async()=> {
-    console.log("👍", "butInstall-clicked");
-    const promptEvent = window.deferredPrompt;
-    if (!promptEvent) {
-      // The deferred prompt isn't available.
-      console.log("oops, no prompt event guardado en window");
-      return;
+  useEffect(()=>{
+    if(isDoingLogin&&dataUser.email!==''){
+      doRegisterUser();
     }
-    // Show the install prompt.
-    promptEvent.prompt();
-    // Log the result
-    const result = await promptEvent.userChoice;
-    console.log("👍", "userChoice", result);
-    // Reset the deferred prompt variable, since
-    // prompt() can only be called once.
-    window.deferredPrompt = null;
-    // Hide the install button.
-    setIsReadyForInstall(false);
+  },[dataUser,isDoingLogin])
+
+  const doRegisterUser = async()=>{
+    try {
+      const result = await loginUserPediatra(dataUser);
+      console.log('result:..',result)
+      if(result){
+        setIsDoingLogin(false);
+        setDataLocalStorage({...result?.data?.dataUser})
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  const toggleOffcanvas = ()=>{
-    setShowOffcanvas(prev=>!prev);
-  }
-    return (
-        <Navbar bg="light" expand="lg">
-          <Container>
-            <Navbar.Brand href="/" className='d-flex gap-2'>
-              <img width={'50px'} src={cardioLogo} className='rounded' alt="cardioLogo" />
-              Pediatra
-              </Navbar.Brand>
-              {isReadyForInstall && <button className='btn btn-outline-danger' onClick={downloadApp}> Instalar </button>}
-            <span className='btn btn-outline-info'> 
-      <BiMenu  onClick={toggleOffcanvas} style={{color:`${colorMorado}`, fontSize:'25px'}}/>
-      </span>
-          <CardioOffcanvas showOffcanvas={showOffcanvas} toggleOffcanvas={toggleOffcanvas}/>
-            
-          </Container>
-        </Navbar>
-      );
-}
+  const toggleOffcanvas = () => {
+    setShowOffcanvas((prev) => !prev);
+  };
 
-export default CardioNavbar
+  const handleLogin= ()=>{
+    console.log('Hagiendo Login:..');
+    doLoginGoogle();
+    setIsDoingLogin(true);
+  }
+
+  const handleLogout= ()=>{
+    console.log('Haciendo Logout');
+    setDataLocalStorage({...initialDataUser})
+  }
+
+  return (
+    <Navbar bg="light" expand="lg">
+      <Container>
+        <Navbar.Brand href="/" className="d-flex gap-2">
+          <img
+            width={"50px"}
+            src={cardioLogo}
+            className="rounded"
+            alt="cardioLogo"
+          />
+          Pediatra
+        </Navbar.Brand>
+        <div className="d-flex gap-1">
+          <span className="btn btn-outline-info">
+            <BiMenu
+              onClick={toggleOffcanvas}
+              style={{ color: `${colorMorado}`, fontSize: "25px" }}
+            />
+          </span>
+          {dataUser.name === "" ? (
+            <span onClick={handleLogin} className="btn btn-outline-info">Login </span>
+          ) : (
+            <span onClick={handleLogout} className="btn btn-outline-danger">Logout </span>
+          )}
+        </div>
+        <CardioOffcanvas
+          showOffcanvas={showOffcanvas}
+          toggleOffcanvas={toggleOffcanvas}
+        />
+      </Container>
+    </Navbar>
+  );
+};
+
+export default CardioNavbar;

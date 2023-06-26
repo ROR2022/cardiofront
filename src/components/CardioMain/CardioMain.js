@@ -9,6 +9,7 @@ const CardioMain = () => {
         <img style={{width:'50vw'}} src={cardioLogo} alt="mainLogo" />
         <h1 style={{fontSize:'5vw', color:`${colorRosa}`}}>Dra. Martha Iris Ocampo Rodríguez</h1>
         <h2 style={{fontSize:'3vw', color:`${colorMorado}50`}}>Médico Pediatra/Intensivista</h2>
+       
     </div>
   )
 }
