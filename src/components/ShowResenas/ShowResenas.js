@@ -69,11 +69,11 @@ const ShowResenas = ({ handleToogleNewResena, isNewResena }) => {
   return (
     <div className="mb-3">
       <hr />
-      {procesoCarga.mont&&<div>Componente montado</div>}
+      {/* {procesoCarga.mont&&<div>Componente montado</div>}
       {procesoCarga.carga&&<div>Datos cargados: {dataResenas.length}</div>}
       {procesoCarga.nuevo&&<div>Nuevo Comentario</div>}
       {procesoCarga.inicioCarga&&<div>Se ha iniciado la carga</div>}
-      {procesoCarga.resultCarga&&<div>Resultado de la Carga: {procesoCarga.resultCarga}</div>}
+      {procesoCarga.resultCarga&&<div>Resultado de la Carga: {procesoCarga.resultCarga}</div>} */}
       <div className="d-flex flex-wrap justify-content-around gap-2">
         {dataResenas.map((item) => {
           return <CardResena key={myId()} dataResena={item} />;

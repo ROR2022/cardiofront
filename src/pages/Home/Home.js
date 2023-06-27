@@ -64,10 +64,10 @@ const Home = () => {
   return (
     <div>
         <CardioNavbar/>
-        <div>
+        {/* <div>
         {dataUser?.name}
         {dataUser?.email}
-        </div>
+        </div> */}
         {dataUser?.name!==''&&<WelcomeUser/>}
         {isReadyForInstall && <button className='btn btn-outline-danger d-block ms-auto me-auto my-3' onClick={downloadApp}> Instalar </button>}
         <CardioMain/>
