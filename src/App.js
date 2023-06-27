@@ -20,6 +20,14 @@ function App() {
     "dataUserPediatra",
     true
   );
+  useEffect(()=>{
+    const initdata= window.localStorage.getItem("dataUserPediatra")
+    if(initdata){
+      setDataLocalStorage({...initdata})
+    }else{
+      setDataLocalStorage({...initialDataUser})
+    }
+  },[])
   useEffect(() => {
       console.log('dataUserPeditra (app):..',dataLocalStorage);
       setDataUser({...dataLocalStorage})
