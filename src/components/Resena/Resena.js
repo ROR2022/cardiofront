@@ -133,7 +133,7 @@ const Resena = ({handleToogleNewResena}) => {
         >
           Agregar Comentario
         </Button>
-        { showErrorToast.show &&
+        { showErrorToast.show && !showToast &&
           <InfoToast
             showToast={showErrorToast.show}
             handleCloseToast={handleCloseErrorToast}
